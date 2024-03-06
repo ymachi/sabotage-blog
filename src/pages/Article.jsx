@@ -1,6 +1,5 @@
-import {useState, useEffect} from 'react'
-import {NavLink, useParams} from "react-router-dom"
-
+import {useParams} from "react-router-dom"
+import {useState, useEffect} from "react"
 
 const articles = [
   {
@@ -124,24 +123,19 @@ const articles = [
 
   },
 ]
-
-
 const ArticlePage = () => {
-  
+
 const {id} = useParams();
-    
-    const [article, setArticle] = useState()
-    
-    useEffect(() =>{
-        console.log("Test ID: " + id);
-        // Filter me renvoie un tableau qui contient l'objet
-        // Find me renvoie l'objet directement
-        let selected = articles.find(article => article.id === parseInt(id))
-        
-        console.log(selected);
-        setArticle(selected)
-        
-    },[])
+const [article, setArticle] = useState("")
+
+useEffect(() => {
+  
+  const selectedArticle = articles.find((a) => a.id === parseInt(id))
+  
+  setArticle(selectedArticle)
+  
+}, [])
+
 
   return (
     <>
@@ -149,22 +143,27 @@ const {id} = useParams();
       
       <div className="min-h-screen bg-[#0E1217] text-white py-10">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold text-[#E11D48] text-center mb-5">{article.title}</h1>
+          <h1 className="text-4xl font-bold text-[#E11D48] text-center mb-5">{""}</h1> {/* On affiche le titre */}
           <div className="flex flex-col md:flex-row items-center gap-6">
-            <img src={article.imageUrl} alt="Article" className="rounded-lg shadow-lg max-w-full h-auto md:w-1/2"/>
+            <img src={article.imageUrl} alt="Article" className="rounded-lg shadow-lg max-w-full h-auto md:w-1/2"/> {/* image de l'article */}
             <div>
               <h2 className="text-2xl text-[#E11D48] mb-2">Résumé</h2>
-              <p className="mb-4">{article.summary}</p>
+              <p className="mb-4">{article.summary}</p>  {/* Summary de l'article */}
               <div className="flex items-center gap-4 mb-2">
+              {/* Image de l'auteur*/}
                 <img src={article.authorImageUrl} alt={article.author} className="w-10 h-10 rounded-full shadow-lg"/>
+                {/* Nom de l'auteur*/}
                 <span>{article.author}</span>
               </div>
-              <div className="text-gray-400 mb-2">📅 {new Date(article.date).toLocaleDateString()}</div>
-              <div className="text-gray-400"> ⏳  Temps de lecture:  {Math.ceil(a.content.length / 300)} min(s) </div>
+              {/* Date de l'article à afficher au format français */}
+              <div className="text-gray-400 mb-2">📅 {new  Date(article.date).toLocaleDateString()}</div>
+              
+              <div className="text-gray-400"> ⏳ Temps de lecture {Math.ceil(article.content.length/300)} min(s)</div>
             </div>
           </div>
           <div className="mt-6">
             <h2 className="text-2xl text-[#E11D48] mb-2">Contenu</h2>
+            {/* Content de l'article*/}
             <p>{article.content}</p>
           </div>
         </div>
